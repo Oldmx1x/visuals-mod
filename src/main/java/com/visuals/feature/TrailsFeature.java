@@ -76,16 +76,17 @@ public class TrailsFeature extends AbstractFeature {
                 float alpha = cfg.trailsAlpha * fade;
                 Point a = arr[i], b = arr[i + 1];
 
+                // ИСПРАВЛЕНО: убраны пустые скобки у x, y, z
                 buf.vertex(mat,
-                        (float)(a.pos().x() - cam.x),
-                        (float)(a.pos().y() - cam.y),
-                        (float)(a.pos().z() - cam.z))
+                        (float)(a.pos().x - cam.x),
+                        (float)(a.pos().y - cam.y),
+                        (float)(a.pos().z - cam.z))
                    .color(a.r(), a.g(), a.b(), alpha).next();
 
                 buf.vertex(mat,
-                        (float)(b.pos().x() - cam.x),
-                        (float)(b.pos().y() - cam.y),
-                        (float)(b.pos().z() - cam.z))
+                        (float)(b.pos().x - cam.x),
+                        (float)(b.pos().y - cam.y),
+                        (float)(b.pos().z - cam.z))
                    .color(b.r(), b.g(), b.b(), alpha * 0.6f).next();
             }
 
