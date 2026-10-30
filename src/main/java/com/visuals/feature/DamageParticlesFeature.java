@@ -93,9 +93,10 @@ public class DamageParticlesFeature extends AbstractFeature {
             for (Particle p : PARTICLES) {
                 float progress = (float) p.age / p.maxAge;
                 float alpha    = (1f - progress) * 0.9f;
-                double dx = p.pos.x() - cam.x;
-                double dy = p.pos.y() - cam.y;
-                double dz = p.pos.z() - cam.z;
+                // ИСПРАВЛЕНО: убраны круглые скобки у x, y, z
+                double dx = p.pos.x - cam.x;
+                double dy = p.pos.y - cam.y;
+                double dz = p.pos.z - cam.z;
 
                 switch (p.type) {
                     case "HEARTS" -> {
@@ -136,18 +137,4 @@ public class DamageParticlesFeature extends AbstractFeature {
                 Vec3d rel = p.pos.subtract(camera.getPos());
                 // Simple billboard: project via FOV is complex; show at a fixed HUD position
                 // For now render as a text overlay near screen centre (simplified)
-                int alpha = (int)((1 - progress) * 255);
-                if (alpha < 20) continue;
-                String txt = String.format("%.1f", p.damage);
-                int col = (alpha << 24) | RenderUtils.argb(1, p.r, p.g, p.b) & 0xFFFFFF;
-                ctx.drawText(mc.textRenderer, txt,
-                        mc.getWindow().getScaledWidth() / 2 + (int)(rel.x * 5),
-                        mc.getWindow().getScaledHeight() / 2 - (int)(rel.y * 8),
-                        col, true);
-            }
-        });
-    }
-
-    @Override public String getName()    { return "DamageParticles"; }
-    @Override public boolean isEnabled() { return VisualsClient.config.damageParticlesEnabled; }
-}
+                int alpha = (int)((1 - progress)
